@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -23,7 +22,9 @@ SECRET_KEY = '#sg6z(_)8l_hkrarjg)z%)$!#=wj^@ex#zd6te%9o69%ls_6#i'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
-
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
 ALLOWED_HOSTS = []
 
 
@@ -36,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,6 +61,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'heroku_db',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
     }
 }
 

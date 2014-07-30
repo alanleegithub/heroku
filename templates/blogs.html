@@ -1,0 +1,17 @@
+{% extends "blog_base.html" %}
+{% block content %}
+{% for post in blogs %}
+<div>
+ <h2><a href="/blogs/get/{{post.id}}/">{{ post.title }}</a></h2>
+</div>
+
+<div class="post.meta">
+ on {{ post.publish_data }}
+</div>
+
+<div class="post_body">
+ {{ post.body|safe|linebreaks }}
+</div>
+
+{% endfor %}
+{% endblock %}
