@@ -4,9 +4,9 @@
  <div class="row">
  {% for post in blogs %}
     <div class="col-md-4">
-      <h2><a href="/blogs/get/{{post.id}}/">{{ post.title }} on {{ post.publish_data }} </a></h2>
-      <p> {{ post.body|safe|linebreaks }}</p>
-      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+      <h2>{{ post.title }} <small>on {{ post.publish_data }} </small></a></h2>
+      <p> {{ post.body|safe|truncatewords:"10"|linebreaks }}</p>
+      <p><a class="btn btn-default" href="/blogs/get/{{post.id}}/" role="button">View details &raquo;</a></p>
     </div>
  {% endfor %}
  </div>
