@@ -88,7 +88,7 @@ DATABASES['default'] =  dj_database_url.config()
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = 'static'
 
 STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.FileSystemFinder",
  "django.contrib.staticfiles.finders.AppDirectoriesFinder")
