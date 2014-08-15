@@ -2,10 +2,11 @@
 
 {% block content %}
 <div class="container">
-    <div class="col-md-12">
-      <h2>{{ post.title }} <small>on {{ post.publish_data }} </small></a></h2>
+    <div class="col-md-8">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.publish_data }} </p>
       <p> {{ post.body|safe|linebreaks }}</p>
-      <p><a class="btn btn-default" href="/blogs/all/" role="button">Back</a></p>
+      <p><a class="btn btn-default" href="/blogs/all/" role="button">Back &raquo;</a></p>
     </div>
 </div> <!-- /container -->
 {% endblock %}
