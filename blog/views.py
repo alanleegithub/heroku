@@ -5,11 +5,23 @@ from django.shortcuts import render_to_response
 from blog.models import Post
 from django.core.context_processors import csrf
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
+from django.contrib import auth
 
 def login(request):
-    c = {}
-    c.update(csrf(request))
-    return render_to_response('login.html', c)
+    #c = {}
+    #c.update(csrf(request))
+    #return render_to_response('login.html')#, c)
+    
+    email = request.POST.get('email', '')
+    password = request.POST.get('password', '')
+    user = auth.authenticate(email=email, password=password)
+
+    if user is not None:
+        auth.login(request, user)
+        return HttpResponseRedirect('blogs.html')
+    else:
+        return render_to_response('login.html')
 
 def blogs(request):
     return render_to_response('blogs.html',
