@@ -7,6 +7,8 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib import auth
+from forms import MyRegistrationForm
+from django.shortcuts import render
 
 def blogs(request):
     return render_to_response('blogs.html',
@@ -32,21 +34,33 @@ def login(request):
         auth.login(request, user)
         return HttpResponseRedirect('blogs.html')
     else:
-        return HttpResponseRedirect('/register/main/')
-
+        return HttpResponseRedirect('/register/')
+"""
 def register_main(request):
     c = {}
     c.update(csrf(request))
     return render_to_response('register.html',  c)
+"""
 
-def register_check(request):
+def register(request):
+    # 2nd time around
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MyRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/blogs/')
+           form.save()
+           return HttpResponseRedirect('/blogs/')
         else:
-            return HttpResponseRedirect('/register/main/')
+           #print "last_name = %s" % request.POST.get("last_name", '')
+           #print "errors1 = %s" % form.errors
+           return render(request, 'register.html', {'form': form})
+
+    # 1st time visit
+    args = {}
+    args.update(csrf(request))
+    # form with no input
+    args['form'] = MyRegistrationForm()
+    #print "errors2 = %s" % args['form'].errors
+    return render_to_response('register.html', args)
 
 def register_success(request):
     return render_to_response('register_success.html')
