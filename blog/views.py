@@ -33,8 +33,7 @@ def login(request):
     if user is not None:
         auth.login(request, user)
         return HttpResponseRedirect('blogs.html')
-    else:
-        return HttpResponseRedirect('/register/')
+    return HttpResponseRedirect('/register/')
 """
 def register_main(request):
     c = {}
@@ -49,10 +48,9 @@ def register(request):
         if form.is_valid():
            form.save()
            return HttpResponseRedirect('/blogs/')
-        else:
            #print "last_name = %s" % request.POST.get("last_name", '')
            #print "errors1 = %s" % form.errors
-           return render(request, 'register.html', {'form': form})
+        return render(request, 'register.html', {'form': form})
 
     # 1st time visit
     args = {}

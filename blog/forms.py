@@ -7,6 +7,12 @@ class MyRegistrationForm(UserCreationForm):
     first_name = forms.CharField(required = True)
     last_name = forms.CharField(required = True)
 
+    def __init__(self, *args, **kwargs):
+      super(MyRegistrationForm, self).__init__(*args, **kwargs)
+      for myField in self.fields:
+        self.fields[myField].widget.attrs['class'] = 'form-control'
+        self.fields[myField].widget.attrs['placeholder'] = self.fields[myField].label or myField
+        
     class Meta:
         model = User
         fields = ('last_name', 'first_name', 'username', 'email', 'password1', 'password2')

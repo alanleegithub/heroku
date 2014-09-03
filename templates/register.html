@@ -11,6 +11,8 @@
         <h2 style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
         </h2>
+    {% else %}
+        <h2>Please Sign Up <small>It's free and always will be.</small></h2>
     {% endif %}
     <hr class="colorgraph">
     {% for field in form %}
@@ -19,8 +21,9 @@
       {% endfor %}
       <div class="row">
        <div class="col-xs-6 col-sm-6 col-md-6">
-        <input class="form-control"
-     {{field}}>
+        <div class="form-group">
+        {{field}}{{field.help_text}}
+        </div>
        </div>
       </div>
     {% endfor %}
