@@ -3,17 +3,36 @@
    <title>Login</title>
  {% endblock %}
 {% block content %}
-{% if form.errors %}
-        <p style="color: red;">
+<div class="container">
+ <div class="row">
+  <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+   <form action="/register/" method="post">{% csrf_token %}
+    {% if form.errors %}
+        <h2 style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-{% endif %}
-<form action="/register/" method="post">{% csrf_token %}
-    {{ form }}
-    <input type="Submit" value="Register" />
-</form>
-
-
+        </h2>
+    {% endif %}
+    <hr class="colorgraph">
+    {% for field in form %}
+      {% for error in field.errors %}
+       {{error}}
+      {% endfor %}
+      <div class="row">
+       <div class="col-xs-6 col-sm-6 col-md-6">
+        <input class="form-control"
+     {{field}}>
+       </div>
+      </div>
+    {% endfor %}
+    <div class="row">
+     <div class="col-xs-6 col-md-6">
+      <input type="Submit" value="Register" class="btn btn-primary btn-block btn-lg"/>
+     </div>
+    </div>
+   </form>
+  </div>
+ </div>
+</div>
 <!--
 <div class="container">
 <div class="row">
