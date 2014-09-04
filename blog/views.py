@@ -26,20 +26,15 @@ def tagpage(request, tag):
 from django.contrib.auth.forms import UserCreationForm
 
 def login(request):
-    email = request.POST.get('email', '')
+    username = request.POST.get('username', '')
     password = request.POST.get('password', '')
-    user = auth.authenticate(email=email, password=password)
+    user = auth.authenticate(username=username, password=password)
 
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('blogs.html')
+        return render_to_response('blogs.html',
+        {'blogs': Post.objects.all()},  context_instance=RequestContext(request))
     return HttpResponseRedirect('/register/')
-"""
-def register_main(request):
-    c = {}
-    c.update(csrf(request))
-    return render_to_response('register.html',  c)
-"""
 
 def register(request):
     # 2nd time around
