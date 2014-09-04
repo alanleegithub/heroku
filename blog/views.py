@@ -32,9 +32,14 @@ def login(request):
 
     if user is not None:
         auth.login(request, user)
-        return render_to_response('blogs.html',
-        {'blogs': Post.objects.all()},  context_instance=RequestContext(request))
+        return render_to_response('blogs_login.html',
+        {'blogs': Post.objects.all(), 
+         'user': user})
     return HttpResponseRedirect('/register/')
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('/')
 
 def register(request):
     # 2nd time around

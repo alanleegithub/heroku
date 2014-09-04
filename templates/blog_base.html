@@ -32,44 +32,7 @@
   </head>
 
   <body>
-    <div class="blog-masthead">
-      <div class="container">
-        <div class="navbar-header">
-         <nav class="blog-nav">
-          <a class="blog-nav-item active" href="#">Home</a>
-          <a class="blog-nav-item" href="#">New features</a>
-          <a class="blog-nav-item" href="#">Press</a>
-          <a class="blog-nav-item" href="#">About</a>
-         </nav>
-        </div>
-
-        <form class="navbar-form navbar-right navbar-top" role="form" action="/login/" method="post">{% csrf_token %}
-            <div class="form-group">
-              <input type="text" placeholder="Username" name='username' class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" name='password' class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="container">
-
-      <div class="blog-header">
-        <h1 class="blog-title">Welcome to Alan Blog</h1>
-        <p class="lead blog-description">This is a blog that tested with django, bootstrap and heroku.</p>
-      </div>
-
-      <div class="row">
-
-        <div class="col-sm-8 blog-main">
-
           {% block content %}{% endblock %}
-
-        </div><!-- /.blog-main -->
-
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
