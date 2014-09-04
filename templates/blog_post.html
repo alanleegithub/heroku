@@ -4,9 +4,8 @@
     <div class="container">
         <div class="navbar-header">
              <nav class="blog-nav">
-                 <a class="blog-nav-item active" href="#">Home</a>
-                 <a class="blog-nav-item" href="/post/">Post</a>
-                 <a class="blog-nav-item" href="/about/">About</a>
+             <a class="blog-nav-item active" href="#">Home</a>
+             <a class="blog-nav-item" href="/about/">About</a>
              </nav>
         </div>
         <form class="navbar-form navbar-right navbar-top" role="form">
@@ -20,25 +19,23 @@
 
 <div class="container">
     <div class="blog-header">
-         <h1 class="blog-title">Welcome to Alan Blog</h1>
-         <p class="lead blog-description">This is a blog that tested with django, bootstrap and heroku.</p>
+         <p class="lead blog-description">Add Post</p>
     </div>
     <div class="row">
-         <div class="col-sm-8 blog-main">
-             {% for post in blogs %}
-            <div class="blog-post">
-                 <h2 class="blog-post-title">{{ post.title }} </h2>
-                 <p class="blog-post-meta">{{ post.publish_data }} by <a href="#">Alan</a></p>
-                 <p> {{ post.body|safe|truncatewords:"10"|linebreaks }}</p>
-                 <p><a class="btn btn-default" href="/blogs/get/{{post.id}}/" role="button">View details &raquo;</a></p>
-            </div><!-- /.blog-post -->
-             {% endfor %}
-             <ul class="pager">
-             <li><a href="#">Previous</a></li>
-             <li><a href="#">Next</a></li>
-             </ul>
-         </div><!-- /.blog-main -->
-         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+        <div class="col-sm-8 blog-main">
+             <form role="form" method='post' action='/post/save/'>{% csrf_token %}
+                <div class='form-group'>
+                     <label >Title:</label>
+                     <input type="text" class="form-control" name='title'>
+                     <label>Body:</label>
+                     <textarea class="form-control" rows="10" name='body'></textarea>
+                     <label>Published Date:</label>
+                     <input type='text' class='form-control' name='date' placeholder={{curr_date}}>{{curr_date}}
+                </div>
+                <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
+             </form>
+        </div><!-- /.blog-main -->
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
                  <h4>About</h4>
                  <p>Nothing special, just record my whiskey history</p>

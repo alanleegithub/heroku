@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from forms import MyRegistrationForm
 from django.shortcuts import render
+import datetime
 
 def blogs(request):
     return render_to_response('blogs.html',
@@ -40,6 +41,18 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
+
+def post(request):
+    return render_to_response('blog_post.html',
+        {'user': request.user,
+         'curr_date': datetime.date.today()},  context_instance=RequestContext(request))
+
+def post_save(request):
+    if request.method == 'POST':
+       print 'title=%s' % request.POST.get('title', '')
+       print 'body=%s' % request.POST.get('body', '')
+       print 'date=%s' % request.POST.get('date', '')
+    return HttpResponseRedirect('/blogs/')
 
 def register(request):
     # 2nd time around
