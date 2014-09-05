@@ -5,7 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', include('blog.urls')),
-    url(r'^blogs/$', include('blog.urls')),
+    url(r'^blogs/', include('blog.urls')),
     url(r'^login/$', 'blog.views.login'),
     url(r'^logout/$', 'blog.views.logout'),
     url(r'^post/$', 'blog.views.post'),

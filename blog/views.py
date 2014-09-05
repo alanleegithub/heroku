@@ -12,11 +12,21 @@ from forms import PostForm
 from django.shortcuts import render
 
 def blogs(request):
-    return render_to_response('blogs.html',
+    if request.user.is_authenticated():
+       return render_to_response('blogs_login.html',
+        {'blogs': Post.objects.all().order_by('-published_date'), 
+         'user': request.user})
+    else:
+       return render_to_response('blogs.html',
         {'blogs': Post.objects.all().order_by('-published_date')},  context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
-    return render_to_response('blog.html',
+    if request.user.is_authenticated():
+       return render_to_response('blog_login.html',
+        {'post': Post.objects.get(id = post_id),
+         'user': request.user})
+    else:
+       return render_to_response('blog.html',
         {'post': Post.objects.get(id = post_id)})
 
 def tagpage(request, tag):
@@ -33,9 +43,7 @@ def login(request):
 
     if user is not None:
         auth.login(request, user)
-        return render_to_response('blogs_login.html',
-        {'blogs': Post.objects.all().order_by('-published_date'), 
-         'user': user})
+        return HttpResponseRedirect('/blogs/')
     return HttpResponseRedirect('/register/')
 
 def logout(request):
@@ -49,9 +57,7 @@ def post(request):
           f = form.save(commit = False)
           f.author = request.user
           f.save()
-          return render_to_response('blogs_login.html',
-               {'blogs': Post.objects.all().order_by('-published_date'), 
-                'user': request.user})
+          return HttpResponseRedirect('/blogs/')
     else:
        form = PostForm()
     return render_to_response('blog_post.html',
@@ -65,8 +71,6 @@ def register(request):
         if form.is_valid():
            form.save()
            return HttpResponseRedirect('/blogs/')
-           #print "last_name = %s" % request.POST.get("last_name", '')
-           #print "errors1 = %s" % form.errors
         return render(request, 'register.html', {'form': form})
 
     # 1st time visit
@@ -74,7 +78,6 @@ def register(request):
     args.update(csrf(request))
     # form with no input
     args['form'] = MyRegistrationForm()
-    #print "errors2 = %s" % args['form'].errors
     return render_to_response('register.html', args)
 
 def register_success(request):
