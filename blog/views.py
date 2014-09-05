@@ -8,12 +8,12 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from forms import MyRegistrationForm
+from forms import PostForm
 from django.shortcuts import render
-import datetime
 
 def blogs(request):
     return render_to_response('blogs.html',
-        {'blogs': Post.objects.all()},  context_instance=RequestContext(request))
+        {'blogs': Post.objects.all().order_by('-publish_data')},  context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
     return render_to_response('blog.html',
@@ -34,7 +34,7 @@ def login(request):
     if user is not None:
         auth.login(request, user)
         return render_to_response('blogs_login.html',
-        {'blogs': Post.objects.all(), 
+        {'blogs': Post.objects.all().order_by('-publish_data'), 
          'user': user})
     return HttpResponseRedirect('/register/')
 
@@ -43,16 +43,18 @@ def logout(request):
     return HttpResponseRedirect('/')
 
 def post(request):
+    if request.method == 'POST':
+       form = PostForm(request.POST)
+       if form.is_valid():
+          form.save()
+          return render_to_response('blogs_login.html',
+               {'blogs': Post.objects.all().order_by('-publish_data'), 
+                'user': request.user})
+    else:
+       form = PostForm()
     return render_to_response('blog_post.html',
         {'user': request.user,
-         'curr_date': datetime.date.today()},  context_instance=RequestContext(request))
-
-def post_save(request):
-    if request.method == 'POST':
-       print 'title=%s' % request.POST.get('title', '')
-       print 'body=%s' % request.POST.get('body', '')
-       print 'date=%s' % request.POST.get('date', '')
-    return HttpResponseRedirect('/blogs/')
+         'form': form},  context_instance=RequestContext(request))
 
 def register(request):
     # 2nd time around

@@ -23,6 +23,7 @@
     </div>
     <div class="row">
         <div class="col-sm-8 blog-main">
+			<!--
              <form role="form" method='post' action='/post/save/'>{% csrf_token %}
                 <div class='form-group'>
                      <label >Title:</label>
@@ -31,6 +32,13 @@
                      <textarea class="form-control" rows="10" name='body'></textarea>
                      <label>Published Date:</label>
                      <input type='text' class='form-control' name='date' placeholder={{curr_date}}>{{curr_date}}
+                </div>
+                <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
+             </form>
+             -->
+             <form role="form" method='post' action='/post/'>{% csrf_token %}
+                <div class='form-group'>
+                     {{form}}
                 </div>
                 <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
              </form>

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+from blog.models import Post
+
 class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required = True)
     first_name = forms.CharField(required = True)
@@ -27,3 +29,17 @@ class MyRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+class PostForm(forms.ModelForm):
+    title = forms.CharField(required = True)
+    body = forms.CharField(widget=forms.Textarea, required = True)
+
+    def __init__(self, *args, **kwargs):
+      super(PostForm, self).__init__(*args, **kwargs)
+      for myField in self.fields:
+        self.fields[myField].widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Post
+        fields = ['title', 'body', 'publish_data']
+
