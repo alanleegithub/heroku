@@ -42,5 +42,5 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'body', 'publish_data']
+        fields = ['title', 'body', 'published_date']
 

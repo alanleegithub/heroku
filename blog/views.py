@@ -13,7 +13,7 @@ from django.shortcuts import render
 
 def blogs(request):
     return render_to_response('blogs.html',
-        {'blogs': Post.objects.all().order_by('-publish_data')},  context_instance=RequestContext(request))
+        {'blogs': Post.objects.all().order_by('-published_date')},  context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
     return render_to_response('blog.html',
@@ -34,7 +34,7 @@ def login(request):
     if user is not None:
         auth.login(request, user)
         return render_to_response('blogs_login.html',
-        {'blogs': Post.objects.all().order_by('-publish_data'), 
+        {'blogs': Post.objects.all().order_by('-published_date'), 
          'user': user})
     return HttpResponseRedirect('/register/')
 
@@ -46,9 +46,11 @@ def post(request):
     if request.method == 'POST':
        form = PostForm(request.POST)
        if form.is_valid():
-          form.save()
+          f = form.save(commit = False)
+          f.author = request.user
+          f.save()
           return render_to_response('blogs_login.html',
-               {'blogs': Post.objects.all().order_by('-publish_data'), 
+               {'blogs': Post.objects.all().order_by('-published_date'), 
                 'user': request.user})
     else:
        form = PostForm()
