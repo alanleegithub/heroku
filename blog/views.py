@@ -13,21 +13,29 @@ from django.shortcuts import render
 
 def blogs(request):
     if request.user.is_authenticated():
-       return render_to_response('blogs_login.html',
-        {'blogs': Post.objects.all().order_by('-published_date'), 
-         'user': request.user})
+       if request.user.username == 'alanlee':
+          page = 'blogs_admin.html'
+       else:
+          page = 'blogs_login.html'
+       return render_to_response(page,
+           {'blogs': Post.objects.all().order_by('-published_date'), 
+            'user': request.user})
     else:
        return render_to_response('blogs.html',
-        {'blogs': Post.objects.all().order_by('-published_date')},  context_instance=RequestContext(request))
+           {'blogs': Post.objects.all().order_by('-published_date')},  context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
     if request.user.is_authenticated():
-       return render_to_response('blog_login.html',
-        {'post': Post.objects.get(id = post_id),
-         'user': request.user})
+       if request.user.username == 'alanlee':
+          page = 'blog_admin.html'
+       else:
+          page = 'blog_login.html'
+       return render_to_response(page,
+           {'post': Post.objects.get(id = post_id),
+            'user': request.user})
     else:
        return render_to_response('blog.html',
-        {'post': Post.objects.get(id = post_id)})
+           {'post': Post.objects.get(id = post_id)})
 
 def tagpage(request, tag):
     posts = Post.objects.filter(tags__name = tag)
