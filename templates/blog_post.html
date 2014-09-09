@@ -1,79 +1,27 @@
 {% extends "blog_base.html" %}
-{% block content %}
-<div class="blog-masthead">
-    <div class="container">
-        <div class="navbar-header">
-             <nav class="blog-nav">
-             <a class="blog-nav-item active" href="#">Home</a>
-             <a class="blog-nav-item" href="/about/">About</a>
-             </nav>
-        </div>
+{% block navbarhead %}
+<a class="blog-nav-item" href="/">Home</a>
+<a class="blog-nav-item active" href="/post/">Post</a>
+<a class="blog-nav-item" href="/about/">About</a>
+{% endblock %}
+{% block navbar %}
         <form class="navbar-form navbar-right navbar-top" role="form">
             <div class="form-group">
                  <span class="label label-primary">Welcome! {{user}}</span>
                  <a href="/logout/" class="btn btn-success" role="button">Logout</a>
             </div>
         </form>
-    </div>
-</div>
+{% endblock %}
 
-<div class="container">
-    <div class="blog-header">
+{% block head %}
          <p class="lead blog-description">Add Post</p>
-    </div>
-    <div class="row">
-        <div class="col-sm-8 blog-main">
-			<!--
-             <form role="form" method='post' action='/post/save/'>{% csrf_token %}
-                <div class='form-group'>
-                     <label >Title:</label>
-                     <input type="text" class="form-control" name='title'>
-                     <label>Body:</label>
-                     <textarea class="form-control" rows="10" name='body'></textarea>
-                     <label>Published Date:</label>
-                     <input type='text' class='form-control' name='date' placeholder={{curr_date}}>{{curr_date}}
-                </div>
-                <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
-             </form>
-             -->
+{% endblock %}
+
+{% block main %}
              <form role="form" method='post' action='/post/'>{% csrf_token %}
                 <div class='form-group'>
                      {{form}}
                 </div>
                 <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
              </form>
-        </div><!-- /.blog-main -->
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                 <h4>About</h4>
-                 <p>Nothing special, just record my whiskey history</p>
-            </div>
-            <div class="sidebar-module">
-                 <h4>Archives</h4>
-                 <ol class="list-unstyled">
-                 <li><a href="#">March 2014</a></li>
-                 <li><a href="#">February 2014</a></li>
-                 <li><a href="#">January 2014</a></li>
-                 <li><a href="#">December 2013</a></li>
-                 <li><a href="#">November 2013</a></li>
-                 <li><a href="#">October 2013</a></li>
-                 <li><a href="#">September 2013</a></li>
-                 <li><a href="#">August 2013</a></li>
-                 <li><a href="#">July 2013</a></li>
-                 <li><a href="#">June 2013</a></li>
-                 <li><a href="#">May 2013</a></li>
-                 <li><a href="#">April 2013</a></li>
-                 </ol>
-            </div>
-            <div class="sidebar-module">
-                 <h4>Elsewhere</h4>
-                 <ol class="list-unstyled">
-                 <li><a href="#">GitHub</a></li>
-                 <li><a href="#">Twitter</a></li>
-                 <li><a href="#">Facebook</a></li>
-                 </ol>
-            </div>
-        </div><!-- /.blog-sidebar -->
-    </div><!-- /.row -->
-</div><!-- /.container -->
 {% endblock %}
