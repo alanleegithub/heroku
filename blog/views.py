@@ -13,7 +13,7 @@ from django.shortcuts import render
 
 def blogs(request):
     if request.user.is_authenticated():
-       if request.user.username == 'alanlee':
+       if request.user.username == 'alanlee' or request.user.username == 'admin':
           page = 'blogs_admin.html'
        else:
           page = 'blogs_login.html'
@@ -26,7 +26,7 @@ def blogs(request):
 
 def blog(request, post_id = 1):
     if request.user.is_authenticated():
-       if request.user.username == 'alanlee':
+       if request.user.username == 'alanlee' or request.user.username == 'admin':
           page = 'blog_admin.html'
        else:
           page = 'blog_login.html'
