@@ -28,6 +28,7 @@
 	 <p class="blog-post-meta">{{ post.published_date }} by <a href="#">{{post.author}}</a></p>
 	 <p> {{ post.body|safe|truncatewords:"10"|linebreaks }}</p>
 	 <p>
+   <a class="btn btn-default" href="/blogs/get/{{post.id}}/comment/" role="button">Comments<span class="badge">42</span></a>
    <a class="btn btn-default" href="/blogs/get/{{post.id}}/" role="button">View details &raquo;</a>
    </p>
 </div><!-- /.blog-post -->

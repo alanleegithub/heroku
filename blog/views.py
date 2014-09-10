@@ -105,7 +105,11 @@ def comment(request, post_id = 1):
           return HttpResponseRedirect('/blogs/')
     else:
        form = CommentForm()
-    return render_to_response('blog_comments.html',
+    if request.user.is_authenticated():
+       page = 'blog_comments.html'
+    else:
+       page = 'blog_discomments.html'
+    return render_to_response(page,
            {'comments': Comment.objects.filter(post_id = post_id).order_by('-published_date'),
             'user': request.user,
             'form': form,
