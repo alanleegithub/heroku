@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from blog.models import Post
+from blog.models import Post, Comment
 
 class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required = True)
@@ -44,3 +44,14 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'body', 'published_date']
 
+class CommentForm(forms.ModelForm):
+    body = forms.CharField(required = True, label='Comment')
+
+    def __init__(self, *args, **kwargs):
+      super(CommentForm, self).__init__(*args, **kwargs)
+      for myField in self.fields:
+        self.fields[myField].widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Comment
+        fields = ['body']

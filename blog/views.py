@@ -2,13 +2,13 @@
 # Create your views here.
 
 from django.shortcuts import render_to_response
-from blog.models import Post
+from blog.models import Post, Comment
 from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from forms import MyRegistrationForm
-from forms import PostForm
+from forms import PostForm, CommentForm
 from django.shortcuts import render
 
 def blogs(request):
@@ -94,4 +94,19 @@ def register_success(request):
 def about(request):
     return render_to_response('about.html')
 
-    
+def comment(request, post_id = 1):
+    if request.method == 'POST':
+       form = CommentForm(request.POST)
+       if form.is_valid():
+          f = form.save(commit = False)
+          f.author = request.user
+          f.post_id = post_id
+          f.save()
+          return HttpResponseRedirect('/blogs/')
+    else:
+       form = CommentForm()
+    return render_to_response('blog_comments.html',
+           {'comments': Comment.objects.filter(post_id = post_id).order_by('-published_date'),
+            'user': request.user,
+            'form': form,
+            'blog_id': post_id},  context_instance=RequestContext(request))
