@@ -85,21 +85,19 @@ def about(request):
     return render_to_response('about.html')
 
 def comment(request, post_id = 1):
-    if request.method == 'POST':
-       form = CommentForm(request.POST)
-       if form.is_valid():
-          f = form.save(commit = False)
-          f.author = request.user
-          f.post_id = post_id
-          f.save()
-          return HttpResponseRedirect('/blogs/')
-    else:
-       form = CommentForm()
-    if not(request.user.is_authenticated()):
-       request.user.username = 'None'
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        f = form.save(commit = False)
+        f.author = request.user
+        f.post_id = post_id
+        f.save()
+        return HttpResponseRedirect('/blogs/')
 
+    if not(request.user.is_authenticated()):
+        request.user.username = 'None'
+    post = Post.objects.get(id = post_id)
     return render_to_response('comment.html',
-           {'comments': Comment.objects.filter(post_id = post_id).order_by('-published_date'),
+           {'comments': post.comment_set.all(),
             'user': request.user,
             'form': form,
             'blog_id': post_id},  context_instance=RequestContext(request))
