@@ -7,7 +7,7 @@
 <a class="blog-nav-item" href="/about/">About</a>
 {% endblock %}
 
-{% block navbar %}
+{% block navbar%}
 {% if user.username == 'None' %}
         <form class="navbar-form navbar-right navbar-top" role="form" action="/login/" method="post">{% csrf_token %}
             <div class="form-group">
@@ -34,13 +34,25 @@
 {% endblock %}
 
 {% block main %}
-            <div class="blog-post">
-                 <h2 class="blog-post-title">{{ post.title }} </h2>
-                 <p class="blog-post-meta">{{ post.published_date }} by <a href="#">{{post.author}}</a></p>
-                 <p> {{ post.body|safe|linebreaks }}</p>
-                 <p>
-                 <a class="btn btn-default" href="/blogs/get/{{post.id}}/comment/" role="button">Comments<span class="badge">42</span></a>
-                 <a class="btn btn-default" href="/blogs/" role="button">Back &raquo;</a>
-                 </p>
-            </div><!-- /.blog-post -->
+     {% for post in comments %}
+     <blockquote>
+         <p class="text-primary"> {{ post.body|safe }}</p>
+         <p class="text-muted"> {{ post.published_date }} by {{post.author}}</p>
+     </blockquote>
+     {% endfor %}
+     {% if user.username == 'None' %}
+     <fieldset disabled>
+     <p class="text-danger">Please sign in to leave comments!</p>
+     {% endif %}
+    <div class="blog-post">
+         <form role="form" method='post' action="/blogs/get/{{blog_id}}/comment/">{% csrf_token %}
+            <div class="form-group">
+                 {{form}}
+            </div>
+             <button type='sumbit' class="btn btn-success col-sm-3">Save</button>
+         </form>
+    </div>
+    {% if user.username == 'None' %}
+    </fieldset>
+    {% endif %}
 {% endblock %}

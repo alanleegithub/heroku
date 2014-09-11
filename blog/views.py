@@ -12,30 +12,20 @@ from forms import PostForm, CommentForm
 from django.shortcuts import render
 
 def blogs(request):
-    if request.user.is_authenticated():
-       if request.user.username == 'alanlee' or request.user.username == 'admin':
-          page = 'blogs_admin.html'
-       else:
-          page = 'blogs_login.html'
-       return render_to_response(page,
-           {'blogs': Post.objects.all().order_by('-published_date'), 
-            'user': request.user})
-    else:
-       return render_to_response('blogs.html',
-           {'blogs': Post.objects.all().order_by('-published_date')},  context_instance=RequestContext(request))
+    if not(request.user.is_authenticated()):
+       request.user.username = 'None'
+
+    return render_to_response('blogs.html',
+           {'blogs': Post.objects.all().order_by('-published_date'),
+            'user': request.user}, context_instance=RequestContext(request))
 
 def blog(request, post_id = 1):
-    if request.user.is_authenticated():
-       if request.user.username == 'alanlee' or request.user.username == 'admin':
-          page = 'blog_admin.html'
-       else:
-          page = 'blog_login.html'
-       return render_to_response(page,
+    if not(request.user.is_authenticated()):
+       request.user.username = 'None'
+
+    return render_to_response('blog.html',
            {'post': Post.objects.get(id = post_id),
             'user': request.user})
-    else:
-       return render_to_response('blog.html',
-           {'post': Post.objects.get(id = post_id)})
 
 def tagpage(request, tag):
     posts = Post.objects.filter(tags__name = tag)
@@ -68,7 +58,7 @@ def post(request):
           return HttpResponseRedirect('/blogs/')
     else:
        form = PostForm()
-    return render_to_response('blog_post.html',
+    return render_to_response('post.html',
         {'user': request.user,
          'form': form},  context_instance=RequestContext(request))
 
@@ -105,11 +95,10 @@ def comment(request, post_id = 1):
           return HttpResponseRedirect('/blogs/')
     else:
        form = CommentForm()
-    if request.user.is_authenticated():
-       page = 'blog_comments.html'
-    else:
-       page = 'blog_discomments.html'
-    return render_to_response(page,
+    if not(request.user.is_authenticated()):
+       request.user.username = 'None'
+
+    return render_to_response('comment.html',
            {'comments': Comment.objects.filter(post_id = post_id).order_by('-published_date'),
             'user': request.user,
             'form': form,
