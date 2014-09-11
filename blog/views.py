@@ -49,15 +49,12 @@ def logout(request):
     return HttpResponseRedirect('/')
 
 def post(request):
-    if request.method == 'POST':
-       form = PostForm(request.POST)
-       if form.is_valid():
-          f = form.save(commit = False)
-          f.author = request.user
-          f.save()
-          return HttpResponseRedirect('/blogs/')
-    else:
-       form = PostForm()
+    form = PostForm(request.POST or None)
+    if form.is_valid():
+        f = form.save(commit = False)
+        f.author = request.user
+        f.save()
+        return HttpResponseRedirect('/blogs/')
     return render_to_response('post.html',
         {'user': request.user,
          'form': form},  context_instance=RequestContext(request))
