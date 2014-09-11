@@ -10,6 +10,7 @@ from django.contrib import auth
 from forms import MyRegistrationForm
 from forms import PostForm, CommentForm
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 
 def blogs(request):
     if not(request.user.is_authenticated()):
@@ -83,10 +84,11 @@ def about(request):
 
 def comment(request, post_id = 1):
     form = CommentForm(request.POST or None)
+    post = get_object_or_404(Post, id = post_id)
     if form.is_valid():
         f = form.save(commit = False)
         f.author = request.user
-        f.post_id = post_id
+        f.post = post
         f.save()
         return HttpResponseRedirect('/blogs/')
 
