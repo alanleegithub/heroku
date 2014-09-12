@@ -39,7 +39,11 @@
                  <p class="blog-post-meta">{{ post.published_date }} by <a href="#">{{post.author}}</a></p>
                  <p> {{ post.body|safe|linebreaks }}</p>
                  {% if post.docfile %}
-                 <p><img class="img-thumbnail" src="{{ post.docfile.url }}" alt="{{ post.docfile.name }}"></p>
+                <div class="row">
+                    <div class="col-sm-6">
+                     <p><img class="img-thumbnail" src="{{ post.docfile.url }}" alt="{{ post.docfile.name }}"></p>
+                    </div>
+                </div>
                  {% endif %}
                  <p>
                  <a class="btn btn-default" href="/blogs/get/{{post.id}}/comment/" role="button">Comments<span class="badge">{{post.comment_set.all.count}}</span></a>
