@@ -54,6 +54,8 @@ def post(request):
     if form.is_valid():
         f = form.save(commit = False)
         f.author = request.user
+        if request.FILES:
+            f.docfile = request.FILES['docfile']
         f.save()
         return HttpResponseRedirect('/blogs/')
     return render_to_response('post.html',

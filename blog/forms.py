@@ -34,6 +34,7 @@ class MyRegistrationForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     title = forms.CharField(required = True)
     body = forms.CharField(widget=forms.Textarea, required = True)
+    docfile = forms.FileField(label='Select a file', required = False)
 
     def __init__(self, *args, **kwargs):
       super(PostForm, self).__init__(*args, **kwargs)
@@ -43,7 +44,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         exclude = ['author']
-        fields = ['title', 'body', 'published_date']
+        fields = ['title', 'body', 'docfile', 'published_date']
 
 class CommentForm(forms.ModelForm):
     body = forms.CharField(required = True, label='Comment')

@@ -36,13 +36,16 @@
 {% block main%}
  {% for post in blogs %}
 <div class="blog-post">
-	 <h2 class="blog-post-title">{{ post.title }} </h2>
-	 <p class="blog-post-meta">{{ post.published_date }} by <a href="#">{{post.author}}</a></p>
-	 <p> {{ post.body|safe|truncatewords:"10"|linebreaks }}</p>
-	 <p>
-   <a class="btn btn-default" href="/blogs/get/{{post.id}}/comment/" role="button">Comments<span class="badge">{{post.comment_set.all.count}}</span></a>
-   <a class="btn btn-default" href="/blogs/get/{{post.id}}/" role="button">View details &raquo;</a>
-   </p>
+     <h2 class="blog-post-title">{{ post.title }} </h2>
+     <p class="blog-post-meta">{{ post.published_date }} by <a href="#">{{post.author}}</a></p>
+     <p> {{ post.body|safe|truncatewords:"10"|linebreaks }}</p>
+     {% if post.docfile %}
+      <p><img class="img-thumbnail" src="{{ post.docfile.url }}" alt="{{ post.docfile.name }}"></p>
+     {% endif %}
+     <p>
+     <a class="btn btn-default" href="/blogs/get/{{post.id}}/comment/" role="button">Comments<span class="badge">{{post.comment_set.all.count}}</span></a>
+     <a class="btn btn-default" href="/blogs/get/{{post.id}}/" role="button">View details &raquo;</a>
+     </p>
 </div><!-- /.blog-post -->
  {% endfor %}
 {% endblock %}
